@@ -17,7 +17,7 @@ import kotlin.coroutines.cancellation.CancellationException
  */
 @Composable
 fun PagerState.FLoopPlay(
-  getInterval: () -> Long = { 3000 },
+  getInterval: () -> Long = { 5000 },
   getNextPage: PagerState.() -> Int = {
     val page = currentPage
     if (page >= pageCount - 1) 0 else page + 1
