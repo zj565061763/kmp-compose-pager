@@ -7,5 +7,5 @@ Compose Multiplatform pager library.
 # Gradle
 
 ```kotlin
-implementation("io.github.zj565061763.kmp:compose-pager:1.0.0-alpha01")
+implementation("io.github.zj565061763.kmp:compose-pager:1.0.0-alpha02")
 ```
