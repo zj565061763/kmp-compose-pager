@@ -1,5 +1,6 @@
 package com.sd.lib.kmp.compose_pager
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
@@ -22,20 +23,20 @@ fun PagerState.FLoopPlay(
     val page = currentPage
     if (page >= pageCount - 1) 0 else page + 1
   },
+  scrollToPage: suspend PagerState.(Int) -> Unit = { nextPage ->
+    animateScrollToPage(page = nextPage, animationSpec = tween(500))
+  },
 ) {
-  val state = this
-  if (state.pageCount <= 1) {
-    return
-  }
+  if (pageCount <= 1) return
 
-  val isDragged by state.interactionSource.collectIsDraggedAsState()
-  if (isDragged) {
-    return
-  }
+  val isDragged by interactionSource.collectIsDraggedAsState()
+  if (isDragged) return
 
   val getIntervalUpdated by rememberUpdatedState(getInterval)
   val getNextPageUpdated by rememberUpdatedState(getNextPage)
+  val scrollToPageUpdated by rememberUpdatedState(scrollToPage)
 
+  val state: PagerState = this
   val lifecycleOwner = LocalLifecycleOwner.current
   LaunchedEffect(state, lifecycleOwner) {
     while (true) {
@@ -43,9 +44,8 @@ fun PagerState.FLoopPlay(
       if (!lifecycleOwner.lifecycle.fAtLeastState()) {
         delay(getIntervalUpdated())
       }
-
       val nextPage = getNextPageUpdated()
-      state.animateScrollToPage(nextPage)
+      scrollToPageUpdated(nextPage)
     }
   }
 }
