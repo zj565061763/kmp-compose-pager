@@ -33,7 +33,7 @@ class InfinitePagerState internal constructor(
   updatedPageCount: () -> Int,
 ) : PagerState(currentPage, currentPageOffsetFraction) {
 
-  internal var pageCountState = mutableStateOf(updatedPageCount)
+  internal val pageCountState = mutableStateOf(updatedPageCount)
 
   override val pageCount: Int get() = getInfiniteCount(realPageCount)
 
@@ -50,7 +50,7 @@ class InfinitePagerState internal constructor(
         listOf(
           it.currentPage,
           (it.currentPageOffsetFraction).coerceIn(-0.5f, 0.5f),
-          it.pageCount,
+          it.realPageCount,
         )
       },
       restore = {
