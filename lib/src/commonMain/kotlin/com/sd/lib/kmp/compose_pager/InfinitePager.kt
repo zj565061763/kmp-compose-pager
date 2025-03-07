@@ -38,6 +38,8 @@ class InfinitePagerState internal constructor(
   override val pageCount: Int get() = getInfiniteCount(realPageCount)
 
   val realPageCount: Int get() = pageCountState.value.invoke()
+  val realCurrentPage: Int get() = realPage(currentPage)
+  val realSettledPage: Int get() = realPage(settledPage)
 
   fun realPage(page: Int): Int {
     val realCount = realPageCount
